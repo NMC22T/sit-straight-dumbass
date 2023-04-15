@@ -10,12 +10,11 @@ import numpy as np
 import cv2
 import time
 import json
-
-from model import Model
 import tensorflow as tf
 
 
 # ------------------ Importing Functions ------------------ #
+from model import Model
 from utils import get_dist_values, keypoint_initialization
 from debug import keypoint_renderings
 
@@ -47,12 +46,6 @@ def calibrate(model: Model, interpretor: tf.lite.Interpreter, calibration_time: 
         """
 
         return [trim_mean(dist, trim_percent) for dist in input_list]
-
-        # mean_list = []
-        # for dist in input_list:
-        #     mean_list.append(trim_mean(dist, trim_percent))
-
-        # return mean_list
     
 
     def get_dist_lst_values(input_list: list, frame: np.array, keypoints: np.array) -> list:

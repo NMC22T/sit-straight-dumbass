@@ -11,9 +11,10 @@ import tensorflow as tf
 import os
 import random
 import playsound
-
-from model import Model
 import cv2
+
+# ------------------ Importing Functions ------------------ #
+from model import Model
 
 
 # ------------------ Utility Functions ------------------ #
@@ -91,12 +92,6 @@ def get_dist_between(frame: np.array, keypoints: np.array, p1_key: str, p2_key: 
 
     p1 = shaped[POINTS[p1_key]][:2].astype(int)
     p2 = shaped[POINTS[p2_key]][:2].astype(int)
-    
-    # p1 = keypoints[0][0][POINTS[p1_str]]
-    # p2 = keypoints[0][0][POINTS[p2_str]]
-
-    # p1 = np.array(p1[:2]*[y,x]).astype(int)
-    # p2 = np.array(p2[:2]*[y,x]).astype(int)
 
     dist = math.sqrt((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2)
 
@@ -257,32 +252,32 @@ def calibration_input() -> bool:
 
 
 def keypoint_initialization(capture_front: cv2.VideoCapture, model: Model, interpretor: tf.lite.Interpreter) -> tuple(np.array, np.array):
-        """
-        keypoint_initialization:
-            Used to initial the openCV frame and return the detected keypoints.
+    """
+    keypoint_initialization:
+        Used to initial the openCV frame and return the detected keypoints.
 
-        Args:
-            capture_front (cv2.VideoCapture): The video capture object to read frames from.
-            model (Model): The pre-trained model to use for keypoint detection.
-            interpretor (tf.lite.Interpreter): The interpreter to run the model with.
+    Args:
+        capture_front (cv2.VideoCapture): The video capture object to read frames from.
+        model (Model): The pre-trained model to use for keypoint detection.
+        interpretor (tf.lite.Interpreter): The interpreter to run the model with.
 
-        Returns:
-        A tuple of two numpy arrays:
-            frame_front (np.array): The OpenCV frame obtained from the video capture object.
-            keypoint_score_front (np.array): A 2D array of shape (N, 4) representing the detected keypoints and their scores,
-                where N is the number of keypoints and each keypoint is represented by 4 values (x, y, score, class).
-        """
+    Returns:
+    A tuple of two numpy arrays:
+        frame_front (np.array): The OpenCV frame obtained from the video capture object.
+        keypoint_score_front (np.array): A 2D array of shape (N, 4) representing the detected keypoints and their scores,
+            where N is the number of keypoints and each keypoint is represented by 4 values (x, y, score, class).
+    """
 
-        # Read Camera Input
-        ret_front, frame_front = capture_front.read()
+    # Read Camera Input
+    ret_front, frame_front = capture_front.read()
 
-        # Image Reshape
-        input_image_front = reshape_image(frame=frame_front, model=model)
+    # Image Reshape
+    input_image_front = reshape_image(frame=frame_front, model=model)
 
-        # Setup Tensor Input and Output
-        input_details, output_details = input_output_details(interpreter=interpretor)
+    # Setup Tensor Input and Output
+    input_details, output_details = input_output_details(interpreter=interpretor)
 
-        # Make Prediction
-        keypoint_score_front = make_prediction(interpreter=interpretor, input_details=input_details, output_details=output_details, input_image=input_image_front)
+    # Make Prediction
+    keypoint_score_front = make_prediction(interpreter=interpretor, input_details=input_details, output_details=output_details, input_image=input_image_front)
 
-        return frame_front, keypoint_score_front
+    return frame_front, keypoint_score_front

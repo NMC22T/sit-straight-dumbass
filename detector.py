@@ -5,12 +5,11 @@
 import cv2
 import os
 import time
-
-from model import Model
 import tensorflow as tf 
 
 
 # ------------------ Importing Functions ------------------ #
+from model import Model
 from utils import keypoint_initialization, open_thresholds, get_audio_list, get_dist_values, play_audio_recording
 from debug import keypoint_renderings
 
