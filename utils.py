@@ -226,7 +226,7 @@ def model_name_input() -> str:
     list_of_models = ["thunder", "lightning"]
 
     while True:
-        model_name = input("What is the model you want to use? lightning fast but bad, thunder slow but good:\n")
+        model_name = input("What model do you want to use? lightning fast but bad, thunder slow but good:\n")
 
         if model_name in list_of_models:
             return str(model_name)
